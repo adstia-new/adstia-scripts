@@ -26,6 +26,6 @@ window.replaceShortcodes = function (str) {
     return "";
   } catch (e) {
     console.error("Failed to replace Shortcodes", e);
-    return "";
+    return str;
   }
 };
