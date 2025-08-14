@@ -5,7 +5,7 @@ window.replaceShortcodes = function (str) {
 
       const paramsShortcodes = Object.fromEntries(urlSearchParams.entries());
 
-      const userId = localStorage.getItem(LOCAL_STORAGE_USER_ID_KEY) || "";
+      const userId = localStorage.getItem('user_id') || "";
 
       const shortcodes = {
         user_id: userId,
