@@ -1,4 +1,4 @@
-window.adstiaScript = {
+window.adstiaScripts = {
   replaceShortcodes: function (str) {
     try {
       if (typeof window !== "undefined") {
