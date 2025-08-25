@@ -1,28 +1,28 @@
 const LOCAL_STORAGE_QUIZ_KEY = "quizValues";
 
-export const getDomainName = () => {
+const getDomainName = () => {
   const location = window.location;
 
   return location.host;
 };
 
-export const getCurrentSlug = () => {
+const getCurrentSlug = () => {
   const location = window.location;
 
   return location.pathname;
 };
 
-export const getCurrentUrl = () => {
+const getCurrentUrl = () => {
   const location = window.location;
 
   return location.href;
 };
 
-export const getScreenResolution = () => {
+const getScreenResolution = () => {
   return `${window.screen.width}x${window.screen.height}`;
 };
 
-export const getConnectionType = () => {
+const getConnectionType = () => {
   const connection =
     navigator.connection ||
     navigator.mozConnection ||
