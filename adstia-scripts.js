@@ -1,5 +1,3 @@
-console.log("ScriptLoaded");
-
 const LOCAL_STORAGE_QUIZ_KEY = "quizValues";
 const COOKIE_ANONYMOUS_ID = "__eventn_id";
 
@@ -204,7 +202,6 @@ window.adstiaScripts = {
       anonymous_id: anonymousId || "",
     };
 
-    console.log("ringbaData:", ringbaData);
     const keyMap = {
       websiteCity: "city",
       websiteState: "state",
@@ -213,7 +210,6 @@ window.adstiaScripts = {
     };
 
     const filteredRingbaData = this.updateData(ringbaData, keyMap);
-    console.log("filteredRingbaData:", filteredRingbaData);
 
     try {
       const entries = Object.entries(filteredRingbaData);
