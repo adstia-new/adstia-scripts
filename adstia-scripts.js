@@ -1,4 +1,5 @@
 const LOCAL_STORAGE_QUIZ_KEY = "quizValues";
+const COOKIE_ANONYMOUS_ID = "__eventn_id";
 
 const getDomainName = () => {
   const location = window.location;
@@ -159,6 +160,55 @@ window.adstiaScripts = {
     } catch (e) {
       console.error("Failed to replace Shortcodes", e);
       return str;
+    }
+  },
+
+  updateData: function (data, keyMap) {
+    return Object.entries(data).reduce((acc, [key, value]) => {
+      // if key exists in map, replace with mapped key
+      const newKey = keyMap[key] || key;
+      acc[newKey] = value;
+      return acc;
+    }, {});
+  },
+
+  pushDataToRingbaTags: function () {
+    if (typeof window === "undefined") return;
+
+    const quizData = JSON.parse(
+      localStorage.getItem(LOCAL_STORAGE_QUIZ_KEY) || "{}"
+    );
+    const searchParams = new URLSearchParams(window.location.search);
+
+    const anonymousId = getCookie(COOKIE_ANONYMOUS_ID);
+
+    const ringbaData = {
+      ...quizData,
+      ...datazAppData,
+      ...Object.fromEntries(searchParams.entries()),
+      user_id: localStorage.getItem("user_id") || "",
+      session_id: sessionStorage.getItem("session_id") || "",
+      anonymous_id: anonymousId || "",
+    };
+
+    const keyMap = {
+      websiteCity: "city",
+      websiteState: "state",
+      websiteCountry: "country",
+      websiteZip: "zip",
+    };
+
+    const filteredRingbaData = this.updateData(ringbaData, keyMap);
+
+    try {
+      const entries = Object.entries(filteredRingbaData);
+      window._rgba_tags = window?._rgba_tags || [];
+
+      entries.forEach((i) => {
+        window?._rgba_tags?.push({ [i[0]]: i[1] });
+      });
+    } catch (err) {
+      console.error("Error pushing data to Ringba tags:", err);
     }
   },
 };
