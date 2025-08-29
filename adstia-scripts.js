@@ -209,7 +209,10 @@ window.adstiaScripts = {
       websiteZip: "zip",
     };
 
-    const filteredRingbaData = this.updateData(ringbaData, keyMap);
+    const { screenResolution, ...filteredRingbaData } = this.updateData(
+      ringbaData,
+      keyMap
+    );
 
     try {
       const entries = Object.entries(filteredRingbaData);
