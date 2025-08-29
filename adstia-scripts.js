@@ -1,3 +1,5 @@
+console.log("ScriptLoaded");
+
 const LOCAL_STORAGE_QUIZ_KEY = "quizValues";
 const COOKIE_ANONYMOUS_ID = "__eventn_id";
 
@@ -29,6 +31,20 @@ const getConnectionType = () => {
     navigator.mozConnection ||
     navigator.webkitConnection;
   return connection ? connection.effectiveType || "unknown" : "unknown";
+};
+
+const getCookie = (name) => {
+  const cookies = document.cookie.split(";");
+  for (let i = 0; i < cookies.length; i++) {
+    let cookie = cookies[i];
+    while (cookie.charAt(0) === " ") {
+      cookie = cookie.substring(1);
+    }
+    if (cookie.indexOf(name + "=") === 0) {
+      return cookie.substring(name.length + 1);
+    }
+  }
+  return null;
 };
 
 window.adstiaScripts = {
@@ -173,8 +189,6 @@ window.adstiaScripts = {
   },
 
   pushDataToRingbaTags: function () {
-    if (typeof window === "undefined") return;
-
     const quizData = JSON.parse(
       localStorage.getItem(LOCAL_STORAGE_QUIZ_KEY) || "{}"
     );
@@ -184,13 +198,13 @@ window.adstiaScripts = {
 
     const ringbaData = {
       ...quizData,
-      ...datazAppData,
       ...Object.fromEntries(searchParams.entries()),
       user_id: localStorage.getItem("user_id") || "",
       session_id: sessionStorage.getItem("session_id") || "",
       anonymous_id: anonymousId || "",
     };
 
+    console.log("ringbaData:", ringbaData);
     const keyMap = {
       websiteCity: "city",
       websiteState: "state",
@@ -199,6 +213,7 @@ window.adstiaScripts = {
     };
 
     const filteredRingbaData = this.updateData(ringbaData, keyMap);
+    console.log("filteredRingbaData:", filteredRingbaData);
 
     try {
       const entries = Object.entries(filteredRingbaData);
