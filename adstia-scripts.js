@@ -71,7 +71,7 @@ window.adstiaScripts = {
     );
   },
 
-  runWalker: () => {
+  updateShortcodes: () => {
     const spans = document.querySelectorAll("span[data-sc]");
     spans.forEach((span) => {
       const key = span.getAttribute("data-sc");
@@ -155,7 +155,7 @@ window.adstiaScripts = {
         }
       }
 
-      this.runWalker();
+      this.updateShortcodes();
     } catch (error) {
       console.error("Fetch error:", error);
     }
