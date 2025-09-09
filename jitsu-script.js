@@ -6,11 +6,6 @@
     return;
   }
 
-  function getQueryStringValue(key) {
-    const urlParams = new URLSearchParams(window.location.search);
-    return urlParams.get(key);
-  }
-
   function getCookie(name) {
     const cookies = document.cookie.split(";");
     for (let i = 0; i < cookies.length; i++) {
@@ -31,34 +26,6 @@
     )}; path=/`;
   }
 
-  function sessionStorageIdSetter() {
-    let vlClickId =
-      getQueryStringValue("vl_click_id") ||
-      getQueryStringValue("click_id") ||
-      getCookie("vl-cid") ||
-      sessionStorage.getItem("session_id");
-
-    if (
-      !vlClickId ||
-      vlClickId === "{clickid}" ||
-      vlClickId.includes("{") ||
-      vlClickId.includes("}")
-    ) {
-      vlClickId = "sess_id_" + crypto?.randomUUID();
-    } else {
-      if (
-        (getQueryStringValue("vl_click_id") ||
-          getQueryStringValue("click_id") ||
-          getCookie("vl-cid")) &&
-        !vlClickId.startsWith("sess_id_")
-      ) {
-        vlClickId = "sess_id_" + vlClickId;
-      }
-    }
-
-    sessionStorage.setItem("session_id", vlClickId);
-  }
-
   function loadJitsu(pathname) {
     var prevScript = document.querySelector("script[data-jitsu]");
     if (prevScript) prevScript.remove();
@@ -74,7 +41,8 @@
     var anonymousId = getCookie("__eventn_id");
 
     if (!sessionId) {
-      sessionStorageIdSetter();
+      sessionId = `sess_id_${crypto.randomUUID()}`;
+      sessionStorage.setItem("session_id", sessionId);
     }
 
     if (!userId) {
