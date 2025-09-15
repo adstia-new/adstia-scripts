@@ -1,5 +1,3 @@
-console.log("VoluumScript loaded");
-
 const initVoluumLanderScript = (url) => {
   try {
     (function (d, c, k, l, r, t, g, u, A, e, m, v, B, a, n, p, h, q, w, D, x) {
@@ -127,79 +125,83 @@ const initVoluumLanderScript = (url) => {
 };
 
 const initVoluumOfferScript = (url) => {
-  (function (c, d, f, h, t, b, n, u, k, l, m, e, p, v, q) {
-    function r(a) {
-      var c = d.cookie.match(new RegExp("(^| )" + a + "=([^;]+)"));
-      return c
-        ? c.pop()
-        : f.getItem(a + "-expires") &&
-          +f.getItem(a + "-expires") > new Date().getTime()
-        ? f.getItem(a)
-        : null;
-    }
-    q = "https:" === c.location.protocol ? "secure; " : "";
-    c[b] ||
-      ((c[b] = function (a) {
-        c[b].state.callbackQueue.push(a);
-      }),
-      (c[b].state = { callbackQueue: [] }),
-      (c[b].registerConversion = function (a) {
-        c[b].state.callbackQueue.push(a);
-      }),
-      (function () {
-        (m = /[?&]cpid(=([^&#]*)|&|#|$)/.exec(c.location.href)) &&
-          m[2] &&
-          ((e = m[2]), (p = r("vl-" + e)));
-        var a = r("vl-cid"),
-          b;
-        "savedCid" !== u || !a || (e && "undefined" !== typeof e) || (b = a);
-        k = d.createElement("script");
-        l = d.scripts[0];
-        k.src =
-          n +
-          (-1 === n.indexOf("?") ? "?" : "&") +
-          "oref=" +
-          h(d.referrer) +
-          "&ourl=" +
-          h(location[t]) +
-          "&opt=" +
-          h(d.title) +
-          "&vtm=" +
-          new Date().getTime() +
-          (b ? "&cid=" + b : "") +
-          (p ? "&uw=no" : "");
-        l.parentNode.insertBefore(k, l);
-        if (e) {
-          a = "vl-" + e;
-          b = q;
-          var g = new Date();
-          g.setTime(g.getTime() + 864e5);
-          d.cookie =
-            a +
-            "=1; " +
-            b +
-            "samesite=Strict; expires=" +
-            g.toGMTString() +
-            "; path=/";
-          f.setItem(a, "1");
-          f.setItem(a + "-expires", g.getTime());
-        }
-      })());
-  })(
-    window,
-    document,
-    localStorage,
-    encodeURIComponent,
-    "href",
-    "dtpCallback",
-    url,
-    "savedCid"
-  );
-  var clickId;
-  dtpCallback(() => {
-    clickId = dtpCallback.getClickID();
-    sessionStorage.setItem("clickId", clickId);
-  });
+  try {
+    (function (c, d, f, h, t, b, n, u, k, l, m, e, p, v, q) {
+      function r(a) {
+        var c = d.cookie.match(new RegExp("(^| )" + a + "=([^;]+)"));
+        return c
+          ? c.pop()
+          : f.getItem(a + "-expires") &&
+            +f.getItem(a + "-expires") > new Date().getTime()
+          ? f.getItem(a)
+          : null;
+      }
+      q = "https:" === c.location.protocol ? "secure; " : "";
+      c[b] ||
+        ((c[b] = function (a) {
+          c[b].state.callbackQueue.push(a);
+        }),
+        (c[b].state = { callbackQueue: [] }),
+        (c[b].registerConversion = function (a) {
+          c[b].state.callbackQueue.push(a);
+        }),
+        (function () {
+          (m = /[?&]cpid(=([^&#]*)|&|#|$)/.exec(c.location.href)) &&
+            m[2] &&
+            ((e = m[2]), (p = r("vl-" + e)));
+          var a = r("vl-cid"),
+            b;
+          "savedCid" !== u || !a || (e && "undefined" !== typeof e) || (b = a);
+          k = d.createElement("script");
+          l = d.scripts[0];
+          k.src =
+            n +
+            (-1 === n.indexOf("?") ? "?" : "&") +
+            "oref=" +
+            h(d.referrer) +
+            "&ourl=" +
+            h(location[t]) +
+            "&opt=" +
+            h(d.title) +
+            "&vtm=" +
+            new Date().getTime() +
+            (b ? "&cid=" + b : "") +
+            (p ? "&uw=no" : "");
+          l.parentNode.insertBefore(k, l);
+          if (e) {
+            a = "vl-" + e;
+            b = q;
+            var g = new Date();
+            g.setTime(g.getTime() + 864e5);
+            d.cookie =
+              a +
+              "=1; " +
+              b +
+              "samesite=Strict; expires=" +
+              g.toGMTString() +
+              "; path=/";
+            f.setItem(a, "1");
+            f.setItem(a + "-expires", g.getTime());
+          }
+        })());
+    })(
+      window,
+      document,
+      localStorage,
+      encodeURIComponent,
+      "href",
+      "dtpCallback",
+      url,
+      "savedCid"
+    );
+    var clickId;
+    dtpCallback(() => {
+      clickId = dtpCallback.getClickID();
+      sessionStorage.setItem("clickId", clickId);
+    });
+  } catch (e) {
+    console.error("Failed to load voluum script", e);
+  }
 };
 
 window.VoluumScripts = {
