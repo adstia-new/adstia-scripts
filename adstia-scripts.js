@@ -283,4 +283,22 @@ window.adstiaScripts = {
       console.error("Error pushing data to Ringba tags:", err);
     }
   },
+
+  saveFbPixelToQuizValues: () => {
+    const fbp = getCookie("_fbp");
+    const fbc = getCookie("_fbc");
+
+    const storedQuizValues = JSON.parse(
+      localStorage.getItem(LOCAL_STORAGE_QUIZ_KEY) || "{}"
+    );
+
+    localStorage.setItem(
+      LOCAL_STORAGE_QUIZ_KEY,
+      JSON.stringify({
+        ...storedQuizValues,
+        _fbp: fbp ?? "",
+        _fbc: fbc ?? "",
+      })
+    );
+  },
 };
