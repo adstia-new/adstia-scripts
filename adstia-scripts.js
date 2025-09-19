@@ -1,5 +1,7 @@
 const LOCAL_STORAGE_QUIZ_KEY = "quizValues";
 const COOKIE_ANONYMOUS_ID = "__eventn_id";
+const LOCAL_STORAGE_USER_ID_KEY = "user_id";
+const SESSION_STORAGE_SESSION_ID_KEY = "session_id";
 
 const getDomainName = () => {
   const location = window.location;
@@ -45,6 +47,12 @@ const getCookie = (name) => {
   return null;
 };
 
+function setCookie(name, value) {
+  document.cookie = `${encodeURIComponent(name)}=${encodeURIComponent(
+    value || ""
+  )}; path=/`;
+}
+
 const findAndReplaceDOMShortcodes = () => {
   const patterns = [/\{\{(.*?)\}\}/];
 
@@ -82,6 +90,39 @@ const findAndReplaceDOMShortcodes = () => {
   }
 };
 
+function getQueryStringValue(key) {
+  const urlParams = new URLSearchParams(window.location.search);
+  return urlParams.get(key);
+}
+
+function sessionStorageIdSetter() {
+  let vlClickId =
+    getQueryStringValue("vl_click_id") ||
+    getQueryStringValue("click_id") ||
+    getCookie("vl-cid") ||
+    sessionStorage.getItem("session_id");
+
+  if (
+    !vlClickId ||
+    vlClickId === "{clickid}" ||
+    vlClickId.includes("{") ||
+    vlClickId.includes("}")
+  ) {
+    vlClickId = "sess_id_" + crypto?.randomUUID();
+  } else {
+    if (
+      (getQueryStringValue("vl_click_id") ||
+        getQueryStringValue("click_id") ||
+        getCookie("vl-cid")) &&
+      !vlClickId.startsWith("sess_id_")
+    ) {
+      vlClickId = "sess_id_" + vlClickId;
+    }
+  }
+
+  sessionStorage.setItem(SESSION_STORAGE_SESSION_ID_KEY, vlClickId);
+}
+
 window.adstiaScripts = {
   init: function () {
     const domainName = getDomainName();
@@ -106,6 +147,26 @@ window.adstiaScripts = {
       LOCAL_STORAGE_QUIZ_KEY,
       JSON.stringify(newQuizValuesData)
     );
+
+    // generate user_id if not found
+    const userId = localStorage.getItem(LOCAL_STORAGE_USER_ID_KEY);
+    if (!userId) {
+      userId = `user_id_${crypto.randomUUID()}`;
+      localStorage.setItem(LOCAL_STORAGE_USER_ID_KEY, userId);
+    }
+
+    // generate session_id if not found
+    const sessionId = sessionStorage.getItem(SESSION_STORAGE_SESSION_ID_KEY);
+    if (!sessionId) {
+      sessionStorageIdSetter();
+    }
+
+    // generate anonymousId if not found
+    var anonymousId = getCookie(COOKIE_ANONYMOUS_ID);
+    if (!anonymousId) {
+      anonymousId = crypto.randomUUID();
+      setCookie("__eventn_id", anonymousId);
+    }
   },
 
   updateShortcodes: () => {
