@@ -204,13 +204,24 @@ const initVoluumOfferScript = (url) => {
   }
 };
 
+function matchesPattern(patterns, currentSlug) {
+  const regexes = patterns.map((pattern) => {
+    const escaped = pattern.replace(/[.+?^${}()|[\]\\]/g, "\\$&"); 
+    const regexStr = "^" + escaped.replace(/\*/g, ".*") + "$"; 
+    return new RegExp(regexStr);
+  });
+
+  // Test against all regexes
+  return regexes.some((regex) => regex.test(currentSlug));
+}
+
 window.VoluumScripts = {
   init: (url, currentSlug, landingSlugs, offerSlugs) => {
     const urlWithoutTrailingSlash = url?.endsWith("/") ? url.slice(0, -1) : url;
 
-    if (landingSlugs.includes(currentSlug)) {
+    if (matchesPattern(landingSlugs, currentSlug)) {
       initVoluumLanderScript(urlWithoutTrailingSlash + "/d/.js");
-    } else if (offerSlugs.includes(currentSlug)) {
+    } else if (matchesPattern(offerSlugs, currentSlug)) {
       initVoluumOfferScript(urlWithoutTrailingSlash + "/d/.js");
     }
 
