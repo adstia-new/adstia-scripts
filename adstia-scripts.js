@@ -72,11 +72,11 @@ const findAndReplaceDOMShortcodes = () => {
           localStorage.getItem(LOCAL_STORAGE_QUIZ_KEY) || "{}"
         );
 
-        if (storedShortcodes[match]) {
-          return storedShortcodes[match];
+        if (storedShortcodes[match.trim()]) {
+          return storedShortcodes[match.trim()];
         }
 
-        return `<span data-sc="${match}"></span>`;
+        return `<span data-sc="${match.trim()}"></span>`;
       }
     );
   }
@@ -111,7 +111,7 @@ window.adstiaScripts = {
   updateShortcodes: () => {
     const spans = document.querySelectorAll("span[data-sc]");
     spans.forEach((span) => {
-      const key = span.getAttribute("data-sc");
+      const key = span.getAttribute("data-sc").trim();
       const storedValue = JSON.parse(
         localStorage.getItem(LOCAL_STORAGE_QUIZ_KEY)
       );
