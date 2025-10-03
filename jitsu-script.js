@@ -11,6 +11,17 @@
     return urlParams.get(key);
   }
 
+  function generateUUID() {
+    return "xxxxxxxx-xxxx-4xxx-yxxx-xxxxxxxxxxxx".replace(
+      /[xy]/g,
+      function (c) {
+        const r = (Math.random() * 16) | 0;
+        const v = c === "x" ? r : (r & 0x3) | 0x8;
+        return v.toString(16);
+      }
+    );
+  }
+
   function getCookie(name) {
     const cookies = document.cookie.split(";");
     for (let i = 0; i < cookies.length; i++) {
@@ -44,7 +55,7 @@
       vlClickId.includes("{") ||
       vlClickId.includes("}")
     ) {
-      vlClickId = "sess_id_" + crypto?.randomUUID();
+      vlClickId = "sess_id_" + generateUUID();
     } else {
       if (
         (getQueryStringValue("vl_click_id") ||
@@ -78,12 +89,12 @@
     }
 
     if (!userId) {
-      userId = `user_id_${crypto.randomUUID()}`;
+      userId = `user_id_${generateUUID()}`;
       localStorage.setItem("user_id", userId);
     }
 
     if (!anonymousId) {
-      anonymousId = crypto.randomUUID();
+      anonymousId = generateUUID();
       setCookie("__eventn_id", anonymousId);
     }
 
