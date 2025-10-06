@@ -106,6 +106,16 @@ window.adstiaScripts = {
       LOCAL_STORAGE_QUIZ_KEY,
       JSON.stringify(newQuizValuesData)
     );
+
+    // Fire GTM pageView event
+    window.dataLayer.push({
+      event: "pageView",
+      data: {
+        domainName,
+        domainSlug,
+        finalUrl,
+      },
+    });
   },
 
   updateShortcodes: () => {
