@@ -206,7 +206,7 @@ window.adstiaScripts = {
               userAgent:
                 uaClientHints?.ua.toString() !== "undefined"
                   ? uaClientHints?.ua.toString()
-                  : uaResult.ua?.toString() || "",
+                  : uaResult.ua?.toString() || window.navigator.userAgent || "",
               osVersion:
                 uaClientHints?.os?.version?.toString() ||
                 uaResult.os.version?.toString() ||
