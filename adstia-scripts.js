@@ -180,6 +180,8 @@ window.adstiaScripts = {
             localStorage.getItem(LOCAL_STORAGE_QUIZ_KEY) || "{}"
           );
 
+          const uaClientHints = await uaResult?.withClientHints();
+
           localStorage.setItem(
             LOCAL_STORAGE_QUIZ_KEY,
             JSON.stringify({
@@ -189,13 +191,34 @@ window.adstiaScripts = {
               ipZip: data.data.postalCode,
               ipAddress: data.data.ipAddress,
               ipCountryCode: data.data.countryCode,
-              device: uaResult.device.model?.toString() || "",
-              browser: uaResult.browser.name?.toString() || "",
-              os: uaResult.os.name?.toString() || "",
-              userAgent: uaResult.ua?.toString() || "",
-              osVersion: uaResult.os.version?.toString() || "",
-              browserVersion: uaResult.browser.version?.toString() || "",
-              deviceModel: uaResult.device.model?.toString() || "",
+              device:
+                uaClientHints?.device?.toString() !== "undefined"
+                  ? uaClientHints?.device?.toString()
+                  : uaResult.device.model?.toString() || "",
+              browser:
+                uaClientHints?.browser?.toString() !== "undefined"
+                  ? uaClientHints?.browser?.toString()
+                  : uaResult.browser.name?.toString() || "",
+              os:
+                uaClientHints?.os?.toString() !== "undefined"
+                  ? uaClientHints?.os?.toString()
+                  : uaResult.os.name?.toString() || "",
+              userAgent:
+                uaClientHints?.ua.toString() !== "undefined"
+                  ? uaClientHints?.ua.toString()
+                  : uaResult.ua?.toString() || "",
+              osVersion:
+                uaClientHints?.os?.version?.toString() ||
+                uaResult.os.version?.toString() ||
+                "",
+              browserVersion:
+                uaClientHints?.browser?.version?.toString() ||
+                uaResult.browser.version?.toString() ||
+                "",
+              deviceModel:
+                uaClientHints?.device?.model?.toString() ||
+                uaResult.device.model?.toString() ||
+                "",
               ...savedTags,
             })
           );
