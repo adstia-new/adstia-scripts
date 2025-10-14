@@ -82,6 +82,55 @@ const findAndReplaceDOMShortcodes = () => {
   }
 };
 
+const saveUAParserValuesToLocalStorage = async () => {
+  try {
+    const uaResult = UAParser();
+    const savedTags = JSON.parse(
+      localStorage.getItem(LOCAL_STORAGE_QUIZ_KEY) || "{}"
+    );
+
+    const uaClientHints = await uaResult?.withClientHints();
+
+    localStorage.setItem(
+      LOCAL_STORAGE_QUIZ_KEY,
+      JSON.stringify({
+        device:
+          uaClientHints?.device?.toString() !== "undefined"
+            ? uaClientHints?.device?.toString()
+            : uaResult.device.model?.toString() || "",
+        browser:
+          uaClientHints?.browser?.toString() !== "undefined"
+            ? uaClientHints?.browser?.toString()
+            : uaResult.browser.name?.toString() || "",
+        os:
+          uaClientHints?.os?.toString() !== "undefined"
+            ? uaClientHints?.os?.toString()
+            : uaResult.os.name?.toString() || "",
+        userAgent:
+          uaClientHints?.ua.toString() !== "undefined"
+            ? uaClientHints?.ua.toString()
+            : uaResult.ua?.toString() || window.navigator.userAgent || "",
+        osVersion:
+          uaClientHints?.os?.version?.toString() ||
+          uaResult.os.version?.toString() ||
+          "",
+        browserVersion:
+          uaClientHints?.browser?.version?.toString() ||
+          uaResult.browser.version?.toString() ||
+          "",
+        deviceModel:
+          uaClientHints?.device?.model?.toString() ||
+          uaResult.device.model?.toString() ||
+          "",
+
+        ...savedTags,
+      })
+    );
+  } catch (e) {
+    console.error("Failed to fetch User Agent");
+  }
+};
+
 window.adstiaScripts = {
   init: function () {
     const domainName = getDomainName();
@@ -133,6 +182,8 @@ window.adstiaScripts = {
   },
 
   fetchUserLocationAndDeviceInfo: async function () {
+    await saveUAParserValuesToLocalStorage();
+
     if (
       typeof window === "undefined" ||
       !window?.cf_variable?.IP_ADDRESS_API_KEY
@@ -175,12 +226,9 @@ window.adstiaScripts = {
           }
 
           const data = await locationResponse.json();
-          const uaResult = UAParser();
           const savedTags = JSON.parse(
             localStorage.getItem(LOCAL_STORAGE_QUIZ_KEY) || "{}"
           );
-
-          const uaClientHints = await uaResult?.withClientHints();
 
           localStorage.setItem(
             LOCAL_STORAGE_QUIZ_KEY,
@@ -191,34 +239,6 @@ window.adstiaScripts = {
               ipZip: data.data.postalCode,
               ipAddress: data.data.ipAddress,
               ipCountryCode: data.data.countryCode,
-              device:
-                uaClientHints?.device?.toString() !== "undefined"
-                  ? uaClientHints?.device?.toString()
-                  : uaResult.device.model?.toString() || "",
-              browser:
-                uaClientHints?.browser?.toString() !== "undefined"
-                  ? uaClientHints?.browser?.toString()
-                  : uaResult.browser.name?.toString() || "",
-              os:
-                uaClientHints?.os?.toString() !== "undefined"
-                  ? uaClientHints?.os?.toString()
-                  : uaResult.os.name?.toString() || "",
-              userAgent:
-                uaClientHints?.ua.toString() !== "undefined"
-                  ? uaClientHints?.ua.toString()
-                  : uaResult.ua?.toString() || window.navigator.userAgent || "",
-              osVersion:
-                uaClientHints?.os?.version?.toString() ||
-                uaResult.os.version?.toString() ||
-                "",
-              browserVersion:
-                uaClientHints?.browser?.version?.toString() ||
-                uaResult.browser.version?.toString() ||
-                "",
-              deviceModel:
-                uaClientHints?.device?.model?.toString() ||
-                uaResult.device.model?.toString() ||
-                "",
               ...savedTags,
             })
           );
