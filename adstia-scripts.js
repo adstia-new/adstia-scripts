@@ -72,6 +72,11 @@ const findAndReplaceDOMShortcodes = () => {
           localStorage.getItem(LOCAL_STORAGE_QUIZ_KEY) || "{}"
         );
 
+        const queryParams = new URLSearchParams(window.location.search);
+
+        if (queryParams.get(match.trim())) {
+          return queryParams.get(match.trim());
+        }
         if (storedShortcodes[match.trim()]) {
           return storedShortcodes[match.trim()];
         }
