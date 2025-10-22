@@ -337,6 +337,10 @@ window.adstiaScripts = {
       entries.forEach((i) => {
         window?._rgba_tags?.push({ [i[0]]: i[1] });
       });
+
+      setTimeout(() => {
+        this.pushDataToRingbaTags();
+      }, 1500);
     } catch (err) {
       console.error("Error pushing data to Ringba tags:", err);
     }
