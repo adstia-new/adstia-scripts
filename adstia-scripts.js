@@ -302,7 +302,9 @@ window.adstiaScripts = {
     }, {});
   },
 
-  pushDataToRingbaTags: function () {
+  pushDataToRingbaTags: function (retries = 2) {
+    if (retries === 0) return;
+
     const quizData = JSON.parse(
       localStorage.getItem(LOCAL_STORAGE_QUIZ_KEY) || "{}"
     );
@@ -337,6 +339,10 @@ window.adstiaScripts = {
       entries.forEach((i) => {
         window?._rgba_tags?.push({ [i[0]]: i[1] });
       });
+
+      setTimeout(() => {
+        this.pushDataToRingbaTags(--retries);
+      }, 1500);
     } catch (err) {
       console.error("Error pushing data to Ringba tags:", err);
     }
