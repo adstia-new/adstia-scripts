@@ -342,7 +342,7 @@ window.adstiaScripts = {
 
       setTimeout(() => {
         this.pushDataToRingbaTags(--retries);
-      }, 2000);
+      }, 1500);
     } catch (err) {
       console.error("Error pushing data to Ringba tags:", err);
     }
