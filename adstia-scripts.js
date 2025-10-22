@@ -207,7 +207,7 @@ window.adstiaScripts = {
           localStorage.getItem(LOCAL_STORAGE_QUIZ_KEY) || "{}"
         );
 
-        if (!storedData.websiteZip) {
+        if (!storedData.ipZip) {
           const ipResponse = await fetch(IP_ADDRESS_API_URL);
           const ipData = await ipResponse.json();
           const userIp = ipData.ip;
