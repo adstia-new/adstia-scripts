@@ -103,7 +103,7 @@
         window.jitsu.track("page_view", {
           path: pathname,
           session_id: sessionStorage.getItem("session_id") || "",
-          user_id: localStorage.getItem("user_id") || "",
+          userId: localStorage.getItem("user_id") || "",
         });
       }
     };
