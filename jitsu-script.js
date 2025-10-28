@@ -98,6 +98,26 @@
       setCookie("__eventn_id", anonymousId);
     }
 
+    setTimeout(() => {
+      var sessionId = sessionStorage.getItem("session_id") || null;
+      var userId = localStorage.getItem("user_id") || null;
+      var anonymousId = getCookie("__eventn_id");
+
+      if (!sessionId) {
+        sessionStorageIdSetter();
+      }
+
+      if (!userId) {
+        userId = `user_id_${generateUUID()}`;
+        localStorage.setItem("user_id", userId);
+      }
+
+      if (!anonymousId) {
+        anonymousId = generateUUID();
+        setCookie("__eventn_id", anonymousId);
+      }
+    }, 1500);
+
     script.onload = function () {
       if (window.jitsu) {
         window.jitsu.track("page_view", {
