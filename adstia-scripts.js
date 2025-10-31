@@ -187,13 +187,17 @@ window.adstiaScripts = {
   },
 
   fetchUserLocationAndDeviceInfo: async function () {
+    console.log("fetchUserLocationAndDeviceInfo");
     await saveUAParserValuesToLocalStorage();
+    console.log("UAParserValues", JSON.parse(localStorage.getItem(LOCAL_STORAGE_QUIZ_KEY)));
 
     if (
       typeof window === "undefined" ||
       !window?.cf_variable?.IP_ADDRESS_API_KEY
     )
       return;
+
+      console.log("IP_ADDRESS_API_KEY", IP_ADDRESS_API_KEY);
 
     const IP_ADDRESS_API_KEY = window.cf_variable?.IP_ADDRESS_API_KEY;
     const IP_ADDRESS_API_URL = "https://api.ipify.org?format=json";
@@ -203,6 +207,7 @@ window.adstiaScripts = {
 
     try {
       if (typeof window !== "undefined") {
+        console.log("IP_ADDRESS_API_URL", IP_ADDRESS_API_URL);
         const storedData = JSON.parse(
           localStorage.getItem(LOCAL_STORAGE_QUIZ_KEY) || "{}"
         );
@@ -211,6 +216,7 @@ window.adstiaScripts = {
           const ipResponse = await fetch(IP_ADDRESS_API_URL);
           const ipData = await ipResponse.json();
           const userIp = ipData.ip;
+          console.log("userIp", userIp);
 
           const locationResponse = await fetch(
             IP_ADDRESS_BASED_LOCATION_API_URL,
@@ -231,6 +237,8 @@ window.adstiaScripts = {
           }
 
           const data = await locationResponse.json();
+          console.log("locationResponse", data);
+
           const savedTags = JSON.parse(
             localStorage.getItem(LOCAL_STORAGE_QUIZ_KEY) || "{}"
           );
@@ -247,6 +255,7 @@ window.adstiaScripts = {
               ...savedTags,
             })
           );
+          console.log("savedTags", savedTags);
         }
       }
 
