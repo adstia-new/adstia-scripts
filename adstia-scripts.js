@@ -189,7 +189,7 @@ window.adstiaScripts = {
   fetchUserLocationAndDeviceInfo: async function () {
     console.log("fetchUserLocationAndDeviceInfo");
     await saveUAParserValuesToLocalStorage();
-    console.log("UAParserValues", JSON.parse(localStorage.getItem(LOCAL_STORAGE_QUIZ_KEY) || "{}"));
+    console.log("UAParserValues");
 
     if (
       typeof window === "undefined" ||
