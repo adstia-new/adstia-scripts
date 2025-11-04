@@ -18,7 +18,7 @@ const stateListToRedirect = {
 };
 
 // We're going to redirect user based on these state to voluum or DQ website
-window.stateListToRedirect = stateListToRedirect;
+window.adstiaScripts.stateListToRedirect = stateListToRedirect;
 
 const privacyHtmlContent = `
 <div style="max-width: 64rem; margin: 0 auto; padding: 2rem;">
