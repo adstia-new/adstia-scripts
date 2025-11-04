@@ -1,23 +1,27 @@
 const stateListToRedirect = {
-  FL: 'Florida',
-  GA: 'Georgia',
-  AL: 'Alabama',
-  AZ: 'Arizona',
-  IN: 'Indiana',
-  KS: 'Kansas',
-  LA: 'Louisiana',
-  MS: 'Mississippi',
-  MO: 'Missouri',
-  NC: 'North Carolina',
-  OH: 'Ohio',
-  OK: 'Oklahoma',
-  SC: 'South Carolina',
-  TN: 'Tennessee',
-  TX: 'Texas',
-  WI: 'Wisconsin',
+  FL: "Florida",
+  GA: "Georgia",
+  AL: "Alabama",
+  AZ: "Arizona",
+  IN: "Indiana",
+  KS: "Kansas",
+  LA: "Louisiana",
+  MS: "Mississippi",
+  MO: "Missouri",
+  NC: "North Carolina",
+  OH: "Ohio",
+  OK: "Oklahoma",
+  SC: "South Carolina",
+  TN: "Tennessee",
+  TX: "Texas",
+  WI: "Wisconsin",
 };
 
 // We're going to redirect user based on these state to voluum or DQ website
+if (!window.adstiaScripts) {
+  window.adstiaScripts = {};
+}
+
 window.adstiaScripts.stateListToRedirect = stateListToRedirect;
 
 const privacyHtmlContent = `
