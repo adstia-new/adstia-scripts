@@ -137,6 +137,24 @@ const saveUAParserValuesToLocalStorage = async () => {
 };
 
 window.adstiaScripts = {
+  stateListToRedirect: {
+    FL: "Florida",
+    GA: "Georgia",
+    AL: "Alabama",
+    AZ: "Arizona",
+    IN: "Indiana",
+    KS: "Kansas",
+    LA: "Louisiana",
+    MS: "Mississippi",
+    MO: "Missouri",
+    NC: "North Carolina",
+    OH: "Ohio",
+    OK: "Oklahoma",
+    SC: "South Carolina",
+    TN: "Tennessee",
+    TX: "Texas",
+    WI: "Wisconsin",
+  },
   init: function () {
     const domainName = getDomainName();
     const domainSlug = getCurrentSlug();
