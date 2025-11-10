@@ -74,14 +74,18 @@ const findAndReplaceDOMShortcodes = () => {
 
         const queryParams = new URLSearchParams(window.location.search);
 
-        if (queryParams.get(match.trim())) {
-          return queryParams.get(match.trim());
+        const matchStr = match?.trim()?.split("||");
+        const shortcode = matchStr[0]?.trim();
+        const fallback = matchStr[1]?.trim();
+
+        if (queryParams.get(shortcode)) {
+          return queryParams.get(shortcode);
         }
-        if (storedShortcodes[match.trim()]) {
-          return storedShortcodes[match.trim()];
+        if (storedShortcodes[shortcode]) {
+          return storedShortcodes[shortcode];
         }
 
-        return `<span data-sc="${match.trim()}"></span>`;
+        return `<span data-sc="${shortcode}">${fallback || ""}</span>`;
       }
     );
   }
